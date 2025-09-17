@@ -1,4 +1,5 @@
 import socket, sys, select
+from rawterm import RawTerminal
 
 def main():
     if len(sys.argv) != 2:
@@ -16,27 +17,30 @@ def main():
     #accept one client for assignment
     conn, addr = srv.accept()
     print(f"[server] connected by {addr}")
-
+    
     #event loop
-    inputs = [sys.stdin, conn]
-    while True:
-        readable, _, _ = select.select(inputs, [], [])
-        for r in readable:
-            if r is sys.stdin:
-                line = sys.stdin.readlinn()
-                if not line: #EOF
-                    print("[server] stdin closed, exiting")
-                    conn.shutdown(socket.SHUT_RDWR)
-                    conn.close()
-                    return
-                conn.sendall(line.encode("UTF-8"))
-            else:
-                data = conn.recv(4096)
-                if not data:
-                    print("[server] peer closed, exiting")
-                    return
-                #show what client typed
-                sys.stdout.write(data.decode("UTF-8"))
-                sys.stdout.flush()
+    with RawTerminal(sys.stdin):
+        inputs = [sys.stdin, conn]
+        while True:
+            readable, _, _ = select.select(inputs, [], [])
+            for r in readable:
+                if r is sys.stdin:
+                    ch = sys.stdin.read(1) #read one char
+                    if ch == '\r' or ch == '\n':
+                        sys.stdout.write('\r\n')
+                        sys.stdout.flush()
+                    else:
+                        sys.stdout.write(ch)
+                        sys.stdout.flush()
+                    
+                    conn.sendall(ch.encode("UTF-8"))
+                else:
+                    data = conn.recv(4096)
+                    if not data:
+                        print("\n[server] peer closed, exiting")
+                        return
+                    sys.stdout.write(data.decode("UTF-8"))
+                    sys.stdout.flush()
+
 if __name__ == "__main__":
     main()

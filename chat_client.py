@@ -1,4 +1,5 @@
 import socket, sys, select
+from rawterm import RawTerminal
 
 def main():
     if len(sys.argv) != 3:
@@ -13,25 +14,28 @@ def main():
     print(f"[client] connected to {server_ip}:{server_port}")
 
     #event loop
-    inputs = [sys.stdin, sock]
-    while True:
-        readable, _, _ = select.select(inputs, [], [])
-        for r in readable:
-            if r is sys.stdin:
-                line = sys.stdin.readlinn()
-                if not line: #EOF
-                    print("[client] stdin closed, exiting")
-                    sock.shutdown(socket.SHUT_RDWR)
-                    sock.close()
-                    return
-                sock.sendall(line.encode("UTF-8"))
-            else:
-                data = sock.recv(4096)
-                if not data:
-                    print("[client] server closed, exiting")
-                    return
-                #show what client typed
-                sys.stdout.write(data.decode("UTF-8"))
-                sys.stdout.flush()
+    with RawTerminal(sys.stdin):
+        inputs = [sys.stdin, sock]
+        while True:
+            readable, _, _= select.select(inputs, [], [])
+            for r in readable:
+                if r is sys.stdin:
+                    ch = sys.stdin.read(1) #read one char
+                    if ch == '\r' or ch == '\n':
+                        sys.stdout.write('\r\n')
+                        sys.stdout.flush()
+                    else:
+                        sys.stdout.write(ch)
+                        sys.stdout.flush()
+                    
+                    sock.sendall(ch.encode("UTF-8"))
+                else:
+                    data = sock.recv(4096)
+                    if not data:
+                        print("\n[client] server closed, exiting")
+                        return
+                    sys.stdout.write(data.decode("UTF-8"))
+                    sys.stdout.flush()
+
 if __name__ == "__main__":
     main()
