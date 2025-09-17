@@ -1,0 +1,103 @@
+<html><head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/><title>COSC 4377 - Introduction to Computer Networks</title><style type="text/css">  
+  body,td { 
+    font-family: verdana, "trebuchet MS", helvetica, sans-serif; 
+    font-size : 12pt;
+  }
+
+  h3 {
+    font-family: verdana, "trebuchet MS", helvetica, sans-serif; 
+    font-size : 12pt;
+  }
+
+</style></head>
+<body data-gr-ext-installed="" data-new-gr-c-s-check-loaded="8.933.0"><center>
+<table border="0" width="800"><tbody><tr><td>
+<center>
+<h2>COSC 4406 -Computer Networks</h2>
+<h3>Fall 2025</h3>
+<table>
+<tbody><tr><td><b>Instructor</b></td><td>Zechun Cao</td></tr>
+</tbody></table>
+</center>
+<h3>Homework 1 : Network Client / Server</h3>
+Due: midnight September 18, 2025<br/>
+<p>
+
+In this assignment, we will write two programs: a client and a
+server. They will communicate with each other across the network using
+sockets.
+</p><p>
+We are going to build a networked chat program. One user will run a
+chat program on one computer. Another user will run a chat program on
+a different computer. The two chat programs will connect to each other
+and enable the two users to chat in real-time!
+</p><p>
+The first program is called chat_server, which is a socket server. The
+server will be launched like this:
+</p><p>
+</p><pre>
+<code>
+# Java
+java ChatServer <i>listen_port</i><br/>
+# Python
+python chat_server.py <i>listen_port</i>
+</code>
+</pre>
+
+Once launched, the server waits for connection on the given port.
+
+<p>
+The second program is called chat_client, which is a socket
+client. The client will be launched like this:
+</p><p>
+</p><pre>
+<code>
+# Java
+java ChatClient <i>server_ip</i> <i>server_port</i><br/>
+# Python
+python chat_client.py <i>server_ip</i> <i>server_port</i>
+</code>
+</pre>
+<p>
+Once launched, the client program connects to a server running on the
+given IP address and port. To find the IP address of the server, log
+in to the server machine, and type ipconfig.
+</p><p>
+When the two programs are running, the programs should echo whatever
+is typed in their stdin to the stdout of the remote program. For
+example, if the user that launches the server types, 'testing' and
+presses enter, the word testing should appear on the client's
+screen. When the user running the client types something and presses
+enter, the text should be echoed on the server's stdout. It is most
+convenient to do this testing by opening two terminal windows on the
+same machine. That way, you can run the client in one window and run
+the server in the other window.
+</p><p>
+
+Once the basic chat feature is working, change your program
+so that the text is sent across the network as each character is
+typed.
+</p><p>
+</p><h3>Compiling and Running</h3>
+<p><em>You may implement this assignment in <strong>Java</strong> or <strong>Python</strong>.</em></p>
+<p><u><strong>Java (recommended file names):</strong></u><br/>
+Files: <code>ChatServer.java</code>, <code>ChatClient.java</code><br/>
+Build: <code>javac ChatServer.java ChatClient.java</code><br/>
+Run server: <code>java ChatServer <i>listen_port</i></code><br/>
+Run client: <code>java ChatClient <i>server_ip</i> <i>server_port</i></code></p>
+<p><u><strong>Python:</strong></u><br/>
+Files: <code>chat_server.py</code>, <code>chat_client.py</code><br/>
+Run server: <code>python chat_server.py <i>listen_port</i></code><br/>
+Run client: <code>python chat_client.py <i>server_ip</i> <i>server_port</i></code></p>
+<p>You may develop on your own machine, but your submission should run on the department Linux environment (or a standard Linux environment). If you use Python, please target Python 3. If you use Java, target Java 8+.</p>
+<h3>Submission</h3>
+<p>Package your source into a directory named <code>uhid_hw1</code> (where <code>uhid</code> is the prefix of your <code>.uh.edu</code> email address).</p>
+<p><u><strong>If using Java:</strong></u><br/>
+Include your <code>.java</code> files and a simple <code>README.txt</code> with compile/run instructions (e.g., <code>javac ...</code> and <code>java ...</code>). A build file (e.g., Maven/Gradle) is optional.</p>
+<p><u><strong>If using Python:</strong></u><br/>
+Include your <code>.py</code> files and a <code>README.txt</code> with run instructions. If external packages are needed, include a <code>requirements.txt</code> (but try to stick to the standard library).</p>
+<p>Zip the directory and upload the zip file using Blackboard.</p>
+</td></tr></tbody></table>
+</center>
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
