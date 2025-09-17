@@ -17,7 +17,7 @@ def main():
     #accept one client for assignment
     conn, addr = srv.accept()
     print(f"[server] connected by {addr}")
-    
+
     #event loop
     with RawTerminal(sys.stdin):
         inputs = [sys.stdin, conn]
@@ -26,14 +26,20 @@ def main():
             for r in readable:
                 if r is sys.stdin:
                     ch = sys.stdin.read(1) #read one char
+                    # check if user doesc ctrl + c, if so, exit program
+                    if ch == '\x03':
+                        print("\nexiting program")
+                        srv.close()
+                        sys.exit(0)
+                        break
                     if ch == '\r' or ch == '\n':
                         sys.stdout.write('\r\n')
                         sys.stdout.flush()
                     else:
                         sys.stdout.write(ch)
                         sys.stdout.flush()
-                    
-                    conn.sendall(ch.encode("UTF-8"))
+                    msg = (ch + "\n").encode("UTF-8")
+                    conn.sendall(msg)
                 else:
                     data = conn.recv(4096)
                     if not data:

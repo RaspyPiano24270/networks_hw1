@@ -21,6 +21,11 @@ def main():
             for r in readable:
                 if r is sys.stdin:
                     ch = sys.stdin.read(1) #read one char
+                    # check if user doesc ctrl + c, if so, exit program
+                    if ch == '\x03':
+                        print("\nexiting program")
+                        sys.exit(1)
+                        break
                     if ch == '\r' or ch == '\n':
                         sys.stdout.write('\r\n')
                         sys.stdout.flush()
