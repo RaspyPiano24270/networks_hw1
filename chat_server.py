@@ -38,8 +38,7 @@ def main():
                     else:
                         sys.stdout.write(ch)
                         sys.stdout.flush()
-                    msg = (ch + "\n").encode("UTF-8")
-                    conn.sendall(msg)
+                    conn.sendall(ch.encode("UTF-8"))
                 else:
                     data = conn.recv(4096)
                     if not data:
