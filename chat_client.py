@@ -29,17 +29,18 @@ def main():
                     if ch == '\r' or ch == '\n':
                         sys.stdout.write('\r\n')
                         sys.stdout.flush()
+                        sock.sendall(b'\n')
                     else:
                         sys.stdout.write(ch)
                         sys.stdout.flush()
                     
-                    sock.sendall(ch.encode("UTF-8"))
+                        sock.sendall(ch.encode("UTF-8"))
                 else:
                     data = sock.recv(4096)
                     if not data:
                         print("\n[client] server closed, exiting")
                         return
-                    sys.stdout.write(data.decode("UTF-8"))
+                    sys.stdout.write(data.decode("UTF-8").replace('\n', '\r\n'))
                     sys.stdout.flush()
 
 if __name__ == "__main__":
