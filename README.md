@@ -32,7 +32,8 @@ You will need two separate terminal windows to run both the server and the clien
 
 Small GIF showing server and client communicating with each other
 
+https://github.com/user-attachments/assets/c325f10e-dd89-44d8-85a8-89e898fcbc4b
 
-https://github.com/user-attachments/assets/dbc03aae-b19e-41b6-ad66-07e8ea71d387
+
 
 
