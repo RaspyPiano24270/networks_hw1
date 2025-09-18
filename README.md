@@ -29,3 +29,10 @@ You will need two separate terminal windows to run both the server and the clien
     Replace `<server_ip>` with the IP address of the machine running the server and `<server_port>` with the port number the server is listening on.
 
 ---
+
+Small GIF showing server and client communicating with each other
+
+
+https://github.com/user-attachments/assets/dbc03aae-b19e-41b6-ad66-07e8ea71d387
+
+
