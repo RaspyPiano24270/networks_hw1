@@ -3,7 +3,7 @@
 We are going to build a networked chat program. One user will run a chat program on one computer. Another user will run a chat program on a different computer. The two chat programs will connect and enable the two users to chat in real-time!
 
 
-The assignment requires the implementation of a basic networked chat program using Python sockets.
+The assignment requires implementing a basic networked chat program using Python sockets.
 
 ---
 
@@ -32,8 +32,4 @@ You will need two separate terminal windows to run both the server and the clien
 
 Small GIF showing server and client communicating with each other
 
-https://github.com/user-attachments/assets/c325f10e-dd89-44d8-85a8-89e898fcbc4b
-
-
-
-
+https://github.com/user-attachments/assets/45707d73-7dd0-4888-a053-6e61b7413ad7
