@@ -34,17 +34,17 @@ def main():
                             sock.sendall(labeled_message.encode("UTF-8"))
                         sys.stdout.write('\r\n')
                         sys.stdout.flush()
-                        message_buffer = ""  # Reset buffer
                     else:
                         sys.stdout.write(ch)
                         sys.stdout.flush()
-                        message_buffer += ch  # Add character to buffer
+                    
+                    sock.sendall(ch.encode("UTF-8"))
                 else:
                     data = sock.recv(4096)
                     if not data:
                         print("\n[client] server closed, exiting")
                         return
-                    sys.stdout.write(data.decode("UTF-8"))
+                    sys.stdout.write(data.decode("UTF-8").replace('\n', '\r\n'))
                     sys.stdout.flush()
 
 if __name__ == "__main__":
