@@ -32,13 +32,13 @@ def main():
                         if message_buffer.strip(): # [client]: message
                             labeled_message = f"[client]: {message_buffer}\r\n"
                             sock.sendall(labeled_message.encode("UTF-8"))
+                        message_buffer = ""  # clear buffer after sending
                         sys.stdout.write('\r\n')
                         sys.stdout.flush()
                     else:
+                        message_buffer += ch  # add character to buffer
                         sys.stdout.write(ch)
                         sys.stdout.flush()
-                    
-                    sock.sendall(ch.encode("UTF-8"))
                 else:
                     data = sock.recv(4096)
                     if not data:
