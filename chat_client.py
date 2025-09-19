@@ -16,24 +16,29 @@ def main():
     #event loop
     with RawTerminal(sys.stdin):
         inputs = [sys.stdin, sock]
+        message_buffer = "" # characters typed in terminal will be added to message buffer
         while True:
             readable, _, _= select.select(inputs, [], [])
             for r in readable:
                 if r is sys.stdin:
                     ch = sys.stdin.read(1) #read one char
-                    # check if user doesc ctrl + c, if so, exit program
+                    # check if user does ctrl + c, if so, exit program
                     if ch == '\x03':
                         print("\nexiting program")
                         sys.exit(1)
                         break
+                    # check if user does enter, if so, send message to client
                     if ch == '\r' or ch == '\n':
+                        if message_buffer.strip(): # [client]: message
+                            labeled_message = f"[client]: {message_buffer}\r\n"
+                            sock.sendall(labeled_message.encode("UTF-8"))
                         sys.stdout.write('\r\n')
                         sys.stdout.flush()
+                        message_buffer = ""  # Reset buffer
                     else:
                         sys.stdout.write(ch)
                         sys.stdout.flush()
-                    
-                    sock.sendall(ch.encode("UTF-8"))
+                        message_buffer += ch  # Add character to buffer
                 else:
                     data = sock.recv(4096)
                     if not data:

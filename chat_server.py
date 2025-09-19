@@ -21,6 +21,7 @@ def main():
     #event loop
     with RawTerminal(sys.stdin):
         inputs = [sys.stdin, conn]
+        message_buffer = "" # Pressing enter will pop as a message (line 37)
         while True:
             readable, _, _ = select.select(inputs, [], [])
             for r in readable:
@@ -32,13 +33,18 @@ def main():
                         srv.close()
                         sys.exit(0)
                         break
+                    # check if user does enter, if so, send message to server
                     if ch == '\r' or ch == '\n':
+                        if message_buffer.strip():  # [server]: message
+                            labeled_message = f"[server]: {message_buffer}\r\n"
+                            conn.sendall(labeled_message.encode("UTF-8"))
                         sys.stdout.write('\r\n')
                         sys.stdout.flush()
+                        message_buffer = ""  # Reset buffer
                     else:
                         sys.stdout.write(ch)
                         sys.stdout.flush()
-                    conn.sendall(ch.encode("UTF-8"))
+                        message_buffer += ch  # Add character to buffer
                 else:
                     data = conn.recv(4096)
                     if not data:
